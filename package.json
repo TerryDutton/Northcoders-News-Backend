@@ -6,19 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "seed:test": "NODE_ENV=test node ./seed/dev.seed.js",
+    "seed:dev": "node ./seed/dev.seed.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "express": "^4.14.0",
+    "express": "^4.16.3",
+    "faker": "^4.1.0",
     "mongoose": "^5.0.14"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^5.0.5",
-    "nodemon": "^1.17.2",
+    "mocha": "^5.1.1",
+    "nodemon": "^1.17.4",
     "supertest": "^3.0.0"
   }
 }
