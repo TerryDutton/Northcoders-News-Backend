@@ -1,11 +1,11 @@
 const app = require('express')(); 
 const bodyParser = require('body-parser'); 
+const {DB_URI} = process.env.NODE_ENV === 'production' ? process.env : require('./config/index.js');
 const mongoose = require('mongoose'); 
 const apiRouter = require('./routers/apiRouter.js'); 
-const dbAppend = process.env.NODE_ENV === 'test' ? '_test' : '';
 
-mongoose.connect(`mongodb://localhost:27017/NCNews${dbAppend}`)
-.then(() => console.log(`Connected to NCNews${dbAppend}`));
+mongoose.connect(DB_URI)
+.then(() => console.log(`Connected to NCNews`));
 
 app.use(bodyParser.json());
 

@@ -461,7 +461,7 @@ describe('/', () => {
         });
       });
 
-      it('returns a 400 bad request and does not delete any comments if provided with an valid mongoID that is not a comment ID.', () => {
+      it('returns a 400 bad request and does not delete any comments if provided with a valid mongoID that is not a comment ID.', () => {
         return request.delete(`/api/comments/${articleDocs[0]._id}`)
         .expect(400)
         .then(response => {

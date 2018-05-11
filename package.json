@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha spec",
-    "start": "node index.js",
+    "start": "node listen.js",
     "dev": "NODE_ENV=test nodemon listen.js",
-    "seed:test": "NODE_ENV=test node ./seed/dev.seed.js",
+    "seed:test": "NODE_ENV=production node ./seed/dev.seed.js",
     "seed:dev": "node ./seed/dev.seed.js"
   },
   "author": "",
