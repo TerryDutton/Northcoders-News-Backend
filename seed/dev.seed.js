@@ -1,12 +1,17 @@
 const mongoose = require('mongoose'); 
 const seedDB = require('./seed.js'); 
-const data = require('../config/index.js'); 
+let   {articleData, commentData, topicData, userData} = require('../config/index.js'); 
 const dbAppend = process.env.NODE_ENV === 'test' ? '_test' : '';
+const {modifyArticleData, createComments} = require('../utils/utils.js');
 
+articleData = modifyArticleData(articleData, userData); 
+
+console.log(articleData[0]);
+if (!commentData) commentData = createComments(articleData.length * 3, userData, articleData);
 
 mongoose.connect(`mongodb://localhost:27017/NCNews${dbAppend}`)
-.then(() => seedDB(data))
-.then(([commentDocs, articleDocs, topicDocs, userDocs]) => {
+.then(() => seedDB(articleData, commentData, topicData, userData))
+.then(([articleDocs, commentDocs, topicDocs, userDocs]) => {
   console.log(`Created ${topicDocs.length} topics, ${userDocs.length} users, ${articleDocs.length} articles and ${commentDocs.length} comments.`);
   return mongoose.disconnect();
 })

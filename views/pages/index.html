@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Northcoders News Main Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style> 
+    h1, h2, h3, p {font-family: Arial}
+    p {font-size: 0.8em;}
+    body {background-color:rgb(26, 26, 26); color:rgb(169, 169, 169)}
+    code{background-color: rgba(255, 0, 0, 0.323)}
+  </style>
+  <script src="main.js"></script>
+</head>
+<body>
+  <h1>Northcoders News</h1>
+  <h2>API Endpoints</h2>
+
+  <h3>GET <code>/api/topics</code></h3>
+  <p>Get all the topics.</p>
+  
+  <h3>GET <code>/api/topics/:topicID/articles</code></h3>
+  <p>Get all articles of a certain topic.</p>
+  
+  <h3>POST <code>/api/topics/:topicID/articles</code></h3>
+  <p>Add a new article to a topic. This requires a JSON <code>body</code> with keys of <code>title</code>, <code>body</code> and <code>created_by</code>, constructed like so: <code>{"title": "My Title Here", "body": "My article contents here", "created_by": "My userID here"}</code>.</p>
+
+  <h3>GET <code>/api/articles</code></h3>
+  <p>Get all articles.</p>
+
+  <h3>GET <code>/api/articles/:articleID</code></h3>
+  <p>Get an individual article.</p>
+
+  <h3>GET <code>/api/articles/:articleID/comments</code></h3>
+  <p>Get all comments for an individual article.</p>
+
+  <h3>POST <code>/api/articles/:articleID/comments</code></h3>
+  <p>Post a comment to an article. This requires a JSON <code>body</code> with keys of <code>body</code> and <code>created_by</code>, constructed like so: <code>{ "body": "My comment here", "created_by": "My userID here" }</code>.</p>
+
+  <h3>PUT <code>/api/articles/:articleID?vote=up</code></h3>
+  <p>Increment or decrement an article's vote count. This route requires a vote query of either "up" or "down".</p>
+
+  <h3>PUT <code>/api/comments/:commentID?vote=up</code></h3>
+  <p>Increment or decrement a comment's vote count. This route requires a vote query of either "up" or "down".</p>
+
+  <h3>DELETE <code>/api/comments/:commentID</code></h3>
+  <p>Delete a comment.</p>
+
+  <h3>GET <code>/api/users/:username</code></h3>
+  <p>Retrieve a JSON object of a user's profile data.</p>
+
+</body>
+</html>

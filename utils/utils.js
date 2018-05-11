@@ -1,26 +1,21 @@
 const faker = require('faker');
 
-exports.getCrossRefOfIDs = function(docs, key){
+exports.crossRefIDsWith = function(docs, key){
   return docs.reduce((acc, doc) => {
   acc[doc[key]] = doc._id;
   return acc;
-}, {});}
+  }, {});
+}
 
-
-exports.buildArticleData = function(articleData, topicRef, userDocs){
+exports.formatArticleData = function(articleData, topicRef, userRef){
   return articleData.map(function(article){
-    const x = ~~(Math.random() * userDocs.length);
-    return {
-      title: article.title, 
-      body: article.body, 
-      belongs_to: topicRef[article.topic],
-      votes: 0, 
-      created_by: userDocs[x]._id
-    };
+    const belongs_to = topicRef[article.topic];
+    const created_by = userRef[article.created_by.toLowerCase()];
+    return {...article, belongs_to, created_by };
   });
 };
 
-exports.formatPresetComments = function(commentData, articleRef, userRef){
+exports.formatComments = function(commentData, articleRef, userRef){
   return commentData.map(function(comment){
     let {belongs_to, created_by} = comment;
     belongs_to = articleRef[belongs_to];
@@ -29,16 +24,25 @@ exports.formatPresetComments = function(commentData, articleRef, userRef){
   });
 };
 
-exports.createNewComments = function(n, userDocs, articleDocs){
+exports.createComments = function(n, userData, articleData){
   return Array.from({length: n}, () => {
-    const x = ~~(Math.random() * userDocs.length);
-    const y = ~~(Math.random() * articleDocs.length);
+    const x = ~~(Math.random() * userData.length);
+    const y = ~~(Math.random() * articleData.length);
+    const z = ~~(Math.random() * 101);
     return {
       body: faker.lorem.sentence(), 
-      belongs_to: articleDocs[y]._id, 
-      created_by: userDocs[x]._id, 
-      votes: ~~(Math.random() * 101), 
+      created_by: userData[x].username, 
+      belongs_to: articleData[y].title, 
+      votes: z, 
       created_at: Date.now()
     };
   });
 };
+
+exports.modifyArticleData = function(articleData, userData){
+  return articleData.map(function(article){
+    const x = ~~(Math.random() * userData.length);
+    const y = ~~(Math.random() * 101);
+    return {...article, created_by: userData[x].username, votes: y };
+  });
+}
