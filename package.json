@@ -6,10 +6,11 @@
   "scripts": {
     "test": "mocha spec",
     "start": "node listen.js",
-    "dev": "NODE_ENV=test nodemon listen.js",
+    "dev": "nodemon listen.js",
     "seed:test": "NODE_ENV=test node ./seed/dev.seed.js",
     "seed:dev": "node ./seed/dev.seed.js",
-    "seed:prod": "NODE_ENV=production node./seed/prod.seed.js"
+    "seed:prod": "node ./seed/prod.seed.js",
+    "createConfig": "CREATE_CONFIG=true node ./seed/createConfig.js"
   },
   "author": "",
   "license": "ISC",

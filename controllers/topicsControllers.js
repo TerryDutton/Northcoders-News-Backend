@@ -10,6 +10,8 @@ exports.getAllTopics = function(req, res, next){
 exports.getArticlesByTopicID = function(req, res, next){
   const {topicID} = req.params; 
   Articles.find({belongs_to: topicID})
+  .populate('created_by', 'username')
+  .populate('belongs_to', 'title')
   .then(articles => {
     if (articles.length === 0) throw invalidID;
     else return res.send({articles});

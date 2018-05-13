@@ -19,7 +19,27 @@ describe('/', () => {
   });
   after(() => mongoose.disconnect());
 
+  it('returns a 404 page-not-found for an invalid address at the root.', () => {
+    return request.get('/FourOhMcFourFace')
+    .expect(404)
+    .then(response => {
+      
+      const {message} = response.body;
+      expect(message).to.equal('Page not found');
+    });
+  });
+
   describe('/api', () => {
+
+    it('returns a 404 page-not-found for an invalid address at /api.', () => {
+      return request.get('/api/FourOhMcFourFace')
+      .expect(404)
+      .then(response => {
+        
+        const {message} = response.body;
+        expect(message).to.equal('Page not found');
+      });
+    });
 
     describe('/topics', () => {
       it('GET returns status 200 and a list of all topics', () => {
@@ -39,8 +59,18 @@ describe('/', () => {
         .then(response => {
           const {articles} = response.body;
           expect(articles.length).to.equal(2); 
-          expect(articles[0].belongs_to).to.equal(`${topicDocs[0]._id}`);
-          expect(articles[1].belongs_to).to.equal(`${topicDocs[0]._id}`);
+          expect(articles[0].belongs_to._id).to.equal(`${topicDocs[0]._id}`);
+          expect(articles[1].belongs_to._id).to.equal(`${topicDocs[0]._id}`);
+        });
+      });
+
+      it('returns a 404 page-not-found for an invalid address at /topics.', () => {
+        return request.get('/api/topics/FourOhMcFourFace')
+        .expect(404)
+        .then(response => {
+          
+          const {message} = response.body;
+          expect(message).to.equal('Page not found');
         });
       });
 
@@ -212,7 +242,7 @@ describe('/', () => {
         .then(response => {
           const {comments} = response.body;
           const testComments = commentDocs.filter(({belongs_to}) => `${belongs_to}` === `${articleDocs[0]._id}`);
-          expect(comments.every(({belongs_to}) => belongs_to === `${articleDocs[0]._id}`)).to.be.true;
+          expect(comments.every(({belongs_to}) => belongs_to._id === `${articleDocs[0]._id}`)).to.be.true;
           expect(comments.every(({body}, i) => body === testComments[i].body)).to.be.true;
         });
       });
@@ -406,6 +436,16 @@ describe('/', () => {
         });
       });
 
+      it('returns a 404 page-not-found for an invalid address at /comments.', () => {
+        return request.get('/comments/FourOhMcFourFace')
+        .expect(404)
+        .then(response => {
+          
+          const {message} = response.body;
+          expect(message).to.equal('Page not found');
+        });
+      });
+
       it('returns a 400 bad request if the query does not equal "up" or "down", and does not affect the comment vote-count.', () => {
         return request.put(`/api/comments/${commentDocs[0]._id}?vote=bananas`)
         .expect(400)
@@ -437,14 +477,15 @@ describe('/', () => {
         return request.delete(`/api/comments/${commentDocs[0]._id}`)
         .expect(200)
         .then(response => {
-          const {comment} = response.body; 
-          return Promise.all([Comments.find(), comment]);
+          const {comment, message} = response.body; 
+          return Promise.all([Comments.find(), comment, message]);
         })
-        .then(([remainingComments, deletedComment]) => {
+        .then(([remainingComments, deletedComment, message]) => {
           expect(deletedComment.body).to.equal(commentDocs[0].body);
           expect(remainingComments[0].body).to.equal(commentDocs[1].body);
           const remainingCommentIDs = remainingComments.map(comment => `${comment._id}`);
           expect(remainingCommentIDs.indexOf(deletedComment._id)).to.equal(-1); 
+          expect(message).to.equal(`Comment ${deletedComment._id} successfully deleted.`);
         });
       });
 

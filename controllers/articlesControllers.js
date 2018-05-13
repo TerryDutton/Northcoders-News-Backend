@@ -24,6 +24,8 @@ exports.getArticleByID = function(req, res, next){
 exports.getCommentsByArticleID = function(req, res, next){
   const {articleID} = req.params;
   Comments.find({belongs_to: articleID})
+  .populate('created_by', 'username')
+  .populate('belongs_to', 'title')
   .then(comments => {
     if (comments.length === 0) throw invalidID;
     else return res.send({comments});
@@ -59,6 +61,8 @@ exports.alterVoteCountOfArticle = function(req, res, next){
   const {articleID} = req.params; 
   const adjustment = vote === 'up' ? 1 : -1; 
   Articles.findByIdAndUpdate(articleID, {$inc: {votes: adjustment}}, {new: true})
+  .populate('created_by', 'username')
+  .populate('belongs_to', 'title')
   .then(article => {
     if (!article) throw invalidID;
     res.send({article});
