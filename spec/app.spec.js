@@ -182,9 +182,9 @@ describe('/', () => {
           expect(article._id).to.equal(`${articleDocs[0]._id}`);
           expect(article.title).to.equal(articleDocs[0].title); 
           expect(article.body).to.equal(articleDocs[0].body);
-          expect(article.belongs_to).to.equal(`${articleDocs[0].belongs_to}`);
+          expect(article.belongs_to._id).to.equal(`${articleDocs[0].belongs_to}`);
           expect(article.votes).to.equal(articleDocs[0].votes);
-          expect(article.created_by).to.equal(`${articleDocs[0].created_by}`);
+          expect(article.created_by._id).to.equal(`${articleDocs[0].created_by}`);
         });
       });
 
@@ -479,15 +479,15 @@ describe('/', () => {
 
     describe('/users', () => {
       it('GET returns 200 and a JSON object of a user\'s details when provided a username.', () => {
-        return request.get(`/api/users/${userDocs[0].username}`)
+        return request.get(`/api/users/${userDocs[1].username}`)
         .expect(200)
         .then(response => {
           const {user} = response.body; 
           expect(user).to.be.an('object'); 
-          expect(user._id).to.equal(`${userDocs[0]._id}`); 
-          expect(user.username).to.equal(userDocs[0].username); 
-          expect(user.name).to.equal(userDocs[0].name); 
-          expect(user.avatar_url).to.equal(userDocs[0].avatar_url); 
+          expect(user._id).to.equal(`${userDocs[1]._id}`); 
+          expect(user.username).to.equal(userDocs[1].username); 
+          expect(user.name).to.equal(userDocs[1].name); 
+          expect(user.avatar_url).to.equal(userDocs[1].avatar_url); 
         });
       });
 

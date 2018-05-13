@@ -14,6 +14,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs'); 
 
 app.use('/api', apiRouter);
+app.get('/', (req, res, next) => res.render('pages/index'));
 
 app.use('*', (req, res, next) => next({status:404, message: 'Page not found'}));
 

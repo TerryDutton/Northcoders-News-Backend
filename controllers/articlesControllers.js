@@ -4,6 +4,7 @@ const invalidID = {name: 'ValidationError'};
 exports.getAllArticles = function(req, res, next){
   Articles.find()
   .populate('created_by', 'username')
+  .populate('belongs_to', 'title')
   .then(articles => res.send({articles}))
   .catch(next); 
 }
@@ -11,6 +12,8 @@ exports.getAllArticles = function(req, res, next){
 exports.getArticleByID = function(req, res, next){
   const {articleID} = req.params; 
   Articles.findById(articleID)
+  .populate('created_by', 'username')
+  .populate('belongs_to', 'title')
   .then(article => {
     if (!article) throw invalidID;
     else return res.send({article});
