@@ -6,9 +6,8 @@ const {modifyArticleData, createComments} = require('../utils/utils.js');
 
 articleData = modifyArticleData(articleData, userData); 
 
-console.log(articleData[0]);
 if (!commentData) commentData = createComments(articleData.length * 3, userData, articleData);
-console.log(DB_URI);
+
 mongoose.connect(DB_URI)
 .then(() => seedDB(articleData, commentData, topicData, userData))
 .then(([articleDocs, commentDocs, topicDocs, userDocs]) => {

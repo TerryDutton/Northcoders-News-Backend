@@ -19,7 +19,8 @@ app.get('/', (req, res, next) => res.render('pages/index'));
 app.use('*', (req, res, next) => next({status:404, message: 'Page not found'}));
 
 app.use((err, req, res, next) => {
-  if (err.status && err.status !== 500) return res.status(err.status).send({message: err.message});
+  const {status, message} = err; 
+  if (status && status !== 500) return res.status(status).send({message});
   else {
     console.log(err);
     return res.status(500).send({message: 'Internal Server Error'});
