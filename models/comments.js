@@ -13,11 +13,13 @@ const CommentSchema = new Schema({
   },
   created_at: {
     type: Number,
-    default: new Date().getTime()
+    default: new Date().getTime(), 
+    required: true
   },
   votes: {
     type: Number,
-    default: 0
+    default: 0, 
+    required: true
   },
   created_by: {
     type: mongoose.Schema.Types.ObjectId,

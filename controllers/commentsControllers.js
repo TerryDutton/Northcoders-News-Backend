@@ -36,3 +36,11 @@ exports.deleteComment = function(req, res, next){
     else return next(err);
   }); 
 }
+
+exports.getAllComments = function(req, res, next){
+  Comments.find()
+  .populate('created_by', 'username')
+  .populate('belongs_to', 'title')
+  .then(comments => res.send({comments}))
+  .catch(next); 
+}

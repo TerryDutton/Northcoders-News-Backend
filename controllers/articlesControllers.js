@@ -23,13 +23,14 @@ exports.getArticleByID = function(req, res, next){
 
 exports.getCommentsByArticleID = function(req, res, next){
   const {articleID} = req.params;
-  Comments.find({belongs_to: articleID})
-  .populate('created_by', 'username')
-  .populate('belongs_to', 'title')
-  .then(comments => {
-    if (comments.length === 0) throw invalidID;
-    else return res.send({comments});
+  return Articles.findById(articleID)
+  .then(article => {
+    if (!article) throw invalidID;
+    else return Comments.find({belongs_to: articleID})
+    .populate('created_by', 'username')
+    .populate('belongs_to', 'title')
   })
+  .then(comments => res.send({comments}))
   .catch(err => err.name === 'CastError' || err.name === 'ValidationError' ? next({status:400, message: 'Bad request: Invalid article ID.'}) : next(err));
 }
 

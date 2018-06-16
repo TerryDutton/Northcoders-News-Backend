@@ -24,7 +24,7 @@ function makeDir(){
 function makeFile(fileName, fileContents){
   return new Promise(function(resolve, reject){
     fs.appendFile(`./config/${fileName}.js`, fileContents, 'utf8', function(err){
-      if (err) return reject({errObj, message: `Failed to create ${fileName}.js. Process terminated.`});
+      if (err) return reject({errObj: err, message: `Failed to create ${fileName}.js. Process terminated.`});
       else return resolve();
     });
   });

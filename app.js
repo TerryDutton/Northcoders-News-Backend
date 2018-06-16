@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const {DB_URI} = process.env.NODE_ENV === 'production' ? process.env : require('./config/index.js');
 const mongoose = require('mongoose'); 
 const apiRouter = require('./routers/apiRouter.js'); 
+const cors = require('cors');
 
 mongoose.connect(DB_URI)
 .then(() => console.log(`Connected to NCNews`));
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs'); 

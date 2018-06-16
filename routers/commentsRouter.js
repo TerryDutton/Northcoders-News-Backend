@@ -1,6 +1,7 @@
 const commentsRouter = require('express').Router(); 
-const {alterVoteCountOfComment, deleteComment} = require('../controllers/commentsControllers'); 
+const {alterVoteCountOfComment, deleteComment, getAllComments} = require('../controllers/commentsControllers'); 
 
+commentsRouter.get('/', getAllComments);
 commentsRouter.route('/:commentID')
   .put(alterVoteCountOfComment)
   .delete(deleteComment);
